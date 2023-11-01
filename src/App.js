@@ -1,46 +1,87 @@
-import React from "react";
+// import React, { useState } from "react";
+// function App() {
+//   // <---- 자바스크립트 영역 ---->
+//   const [id, setId] = useState("");
+//   const [password, setPassword] = useState("");
 
-function Child() {
-  return <div>나는 자녀입니다.</div>;
+//   console.log("id", id);
+//   console.log("password", password);
+//   const onIdChangeHandler = (event) => {
+//     setId(event.target.value);
+//   };
+//   const onPwChangeHandler = (event) => {
+//     setPassword(event.target.value);
+//   };
+//   return (
+//     /* <---- HTML/JSX 영역  ---->*/
+//     <div>
+//       <p>
+//         아이디 : <input type="text" value={id} onChange={onIdChangeHandler} />
+//       </p>
+//       <p>
+//         비밀번호 :{" "}
+//         <input type="password" value={password} onChange={onPwChangeHandler} />
+//       </p>
+//       <button
+//         onClick={() => {
+//           alert(
+//             `고객님이 입력하신 아이디는 ${id}이며, 비밀번호는 ${password}입니다.`
+//           );
+//           setId("");
+//           setPassword("");
+//         }}
+//       >
+//         로그인
+//       </button>
+//     </div>
+//   );
+// }
+
+// export default App;
+
+import React, { useState } from "react";
+
+function Child(props) {
+  return (
+    <div>
+      <button
+        onClick={() => {
+          props.setName("박할아버지");
+        }}
+      >
+        할아버지 이름 바꾸기
+      </button>
+      <div>{props.grandFatherName}</div>
+    </div>
+  );
 }
 
-function Mom() {
-  return <Child />;
+function Mother(props) {
+  return (
+    <Child grandFatherName={props.grandFatherName} setName={props.setName} />
+  );
 }
 
-function GrandMom() {
-  return <Mom />;
+function GrandFather() {
+  const [name, setName] = useState("김할아버지");
+  return <Mother grandFatherName={name} setName={setName} />;
 }
+
 function App() {
-  return <GrandMom />;
-  // return (
-  //   <div>
-  //     <Child />
-  //     <Child />
-  //     <Child />
-  //     <Child />
-  //   </div>
-  // );
-  // // <---- 자바스크립트 영역 ---->
-  // function onClickButtonHandler() {
-  //   alert("클릭");
-  // }
-  // return (
-  //   /* <---- HTML/JSX 영역  ---->*/
-  //   <div
-  //     style={{
-  //       height: "100vh",
-  //       display: " flex",
-  //       flexDirection: "column",
-  //       justifyContent: "center",
-  //       alignItems: "center",
-  //     }}
-  //   >
-  //     {/* 이곳에 퀴즈를 위한 html 코드를 작성해 주세요 */}
-  //     <p>이것은 내가 만든 APP 컴포넌트입니다.</p>
-  //     <button onClick={onClickButtonHandler}>클릭!</button>
-  //   </div>
-  // );
+  const [value, setValue] = useState("");
+
+  const onChangeHandler = (event) => {
+    const inputValue = event.target.value;
+    setValue(inputValue);
+  };
+
+  return (
+    <div>
+      <input type="text" onChange={onChangeHandler} value={value} />
+      <p>Input 값: {value}</p>
+      <GrandFather />
+    </div>
+  );
 }
 
 export default App;
